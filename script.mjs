@@ -14,6 +14,7 @@ import { FB_GAMEDB } from "./main.mjs";
 let authenticated_user = "unauthorised";
 /*****************************************/
 
+// Code toauthenicate the user.
 function fb_authenticate() {
   const AUTH = getAuth();
   const PROVIDER = new GoogleAuthProvider();
@@ -26,6 +27,7 @@ function fb_authenticate() {
 
   signInWithPopup(AUTH, PROVIDER)
     .then((result) => {
+      write_status_message("Login Successful");
       console.info("authentication success, result: " + result);
       document.getElementById("login-button").setAttribute("disabled", true);
       authenticated_user = result.user;
@@ -38,31 +40,36 @@ function fb_authenticate() {
 }
 
 // This function gets the inputs into the html form.
-function retrive_form() {
-  const nameInput = document.getElementById("name");
-  const favoriteFruitInput = document.getElementById("favoriteFruit");
-  const fruitQuantityInput = document.getElementById("fruitQuantity");
+function setupFormListener() {
+  const form = document.getElementById("fruitForm");
+  console.log(form);
 
-  return {
-    name: nameInput.value,
-    favoriteFruit: favoriteFruitInput.value,
-    fruitQuantity: fruitQuantityInput.value,
-  };
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = {};
+
+    new FormData(form).forEach((value, key) => {
+      formData[key] = value;
+    });
+
+    fb_write_form(formData);
+  });
 }
 
-function fb_write() {
+// Code to write the form, taking in a object and wiritng it to the users data store.
+function fb_write_form(form_data) {
   if (authenticated_user == "unauthorised") {
+    write_status_message("You have not logged in");
     console.log("You have not logged in");
     return;
   }
 
-  let input = retrive_form();
-  let path = `/users/${authenticated_user.uid}`;
+  // let input = setupFormListener();
+  let userPath = `/users/${authenticated_user.uid}`;
 
-  console.log(input);
-
-  const userDbRef = ref(FB_GAMEDB, path);
-  set(userDbRef, input)
+  const userDbRef = ref(FB_GAMEDB, userPath);
+  set(userDbRef, form_data)
     .then(() => {
       console.log("Thank you for purchasing!");
       document.getElementById("submit-button").setAttribute("disabled", true);
@@ -73,5 +80,11 @@ function fb_write() {
     });
 }
 
+function write_status_message(message) {
+  document.getElementById("statusMessage").innerHTML = message;
+}
+/*****************************************/
+setupFormListener();
+
 // Functions to export
-export { fb_authenticate, fb_write };
+export { fb_authenticate };

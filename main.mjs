@@ -29,6 +29,5 @@ function fb_initialise() {
 fb_initialise();
 
 /*****************************************/
-import { fb_authenticate, fb_write } from "./script.mjs";
+import { fb_authenticate } from "./script.mjs";
 window.fb_authenticate = fb_authenticate;
-window.fb_write = fb_write;
