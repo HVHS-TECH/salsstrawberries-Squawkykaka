@@ -12,7 +12,7 @@
     <h1>Sal’s Strawberry Saloon</h1>
     <h2>(and other fruit products)</h2>
 
-    <button onclick="fb_authenticate()">Login with Google</button>
+    <button onclick="fb_authenticate()" id="login-button">Login with Google</button>
 
     <form id="fruitForm">
       <label for="name">Your Name:</label>
@@ -24,10 +24,10 @@
       <label for="fruitQuantity">How many servings per week?</label>
       <input type="number" id="fruitQuantity" name="fruitQuantity" required />
 
+      <button type="button" onclick="fb_write()" id="submit-button">Submit</button>
       <!-- add more fields here -->
     </form>
 
-    <button onclick="fb_write()">Submit</button>
 
     <p id="statusMessage"></p>
   </div>

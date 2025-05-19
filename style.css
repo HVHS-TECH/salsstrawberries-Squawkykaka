@@ -49,8 +49,18 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.2rem;
+  background-color: #4f1c2b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 button:hover {
-  background-color: #e64a74;
+  background-color: #4f1c2b;
 }
 
 #statusMessage {
