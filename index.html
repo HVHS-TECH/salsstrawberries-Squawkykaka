@@ -13,13 +13,15 @@
     <h2>(and other fruit products)</h2>
 
     <button onclick="fb_authenticate()" id="login-button">Login with Google</button>
+    <button onclick="showEmailFromUser()" id="email-button">Show email.</button>
+
 
     <form id="fruitForm">
       <label for="name">Your Name:</label>
-      <input type="text" name="name" required />
+      <input type="text" name="name" id="nameField" required />
 
       <label for="email">What is your email?</label>
-      <input type="email" name="email" required />
+      <input type="email" name="email" id="emailField" required />
 
       <label for="age">How old are you? (In years)</label>
       <input type="number" name="age" required />

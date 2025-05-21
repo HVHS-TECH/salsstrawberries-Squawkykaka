@@ -6,6 +6,7 @@ import {
 import {
   ref,
   set,
+  get,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 import { FB_GAMEDB } from "./main.mjs";
 
@@ -28,10 +29,14 @@ function fb_authenticate() {
   signInWithPopup(AUTH, PROVIDER)
     .then((result) => {
       write_status_message("Login Successful");
+
       console.info("authentication success, result: " + result);
       document.getElementById("login-button").setAttribute("disabled", true);
+
       authenticated_user = result.user;
       console.info(result.user);
+
+      fillInfoFromLogin();
     })
 
     .catch((error) => {
@@ -39,8 +44,16 @@ function fb_authenticate() {
     });
 }
 
+function fillInfoFromLogin() {
+  var nameField = document.getElementById("nameField");
+  var emailField = document.getElementById("emailField");
+
+  nameField.value = authenticated_user.displayName;
+  emailField.value = authenticated_user.email;
+}
+
 // This function gets the inputs into the html form.
-function setupFormListener() {
+function setupSubmitListener() {
   const form = document.getElementById("fruitForm");
   console.log(form);
 
@@ -53,12 +66,13 @@ function setupFormListener() {
       formData[key] = value;
     });
 
-    fb_write_form(formData);
+    fb_writeForm(formData);
+    write_status_message("Thank you for purchasing!");
   });
 }
 
 // Code to write the form, taking in a object and wiritng it to the users data store.
-function fb_write_form(form_data) {
+function fb_writeForm(form_data) {
   if (authenticated_user == "unauthorised") {
     write_status_message("You have not logged in");
     console.log("You have not logged in");
@@ -83,8 +97,48 @@ function fb_write_form(form_data) {
 function write_status_message(message) {
   document.getElementById("statusMessage").innerHTML = message;
 }
+
+function showEmailFromUser() {
+  if (authenticated_user == "unauthorised") {
+    write_status_message("You have not logged in, cannot show email.");
+    console.log("You have not logged in.");
+    return;
+  }
+
+  let userPath = `/users/${authenticated_user.uid}`;
+
+  get(ref(FB_GAMEDB, userPath))
+    .then((snapshot) => {
+      var fb_data = snapshot.val();
+
+      if (fb_data == null) {
+        write_status_message("You have not submitted a form.");
+        return;
+      }
+
+      console.log(fb_data);
+
+      write_status_message(
+        `
+        Hello, ${fb_data.name}. We heard you liked ${fb_data.favoriteFruit}.<br>
+        We have a special deal to give you ${fb_data.fruitQuantity / 2} FREE ${
+          fb_data.favoriteFruit
+        }.<br>
+
+        If you want this, reply to the email within 2 days.<br>
+
+        Thank you,<br>
+        The sals strawberrys team!
+        `
+      );
+    })
+    .catch((error) => {
+      console.log("An error occured, the error is\n" + error);
+    });
+}
+
 /*****************************************/
-setupFormListener();
+setupSubmitListener();
 
 // Functions to export
-export { fb_authenticate };
+export { fb_authenticate, showEmailFromUser };

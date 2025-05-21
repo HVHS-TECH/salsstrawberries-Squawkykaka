@@ -29,5 +29,6 @@ function fb_initialise() {
 fb_initialise();
 
 /*****************************************/
-import { fb_authenticate } from "./script.mjs";
+import { fb_authenticate, showEmailFromUser } from "./script.mjs";
 window.fb_authenticate = fb_authenticate;
+window.showEmailFromUser = showEmailFromUser;
