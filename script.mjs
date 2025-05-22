@@ -137,6 +137,8 @@ function showEmailFromUser() {
     });
 }
 
+function displayFiveMostPopularFruits() {}
+
 /*****************************************/
 setupSubmitListener();
 
