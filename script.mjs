@@ -134,20 +134,43 @@ function showEmailFromUser() {
 
       console.log(fb_data);
 
-      write_status_message(
-        `
-       <div style="background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), #fff0f5); border: 2px solid #ff4757; padding: 1.5rem;
-      border-radius: 16px; font-family: 'Comic Sans MS', cursive, sans-serif; color: #8b004b; box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);">
-  <h2 style="color: #ff2d55;">ᚠᚢᚱᚢᚾ ᚨᛞᛖᛗ, ${fb_data.name} — Harvester of the Blighted Fruit!</h2>
-  <p>Sal’s Strawberry Saloon welcomes you to the orchard of damnation, where every bite drips with the blood of <em style="color:#d14775;">Thal’zor</em> and probably high-fructose corn syrup.</p>
-  <p>Your hunger for <strong style="color:#ff699d;">${fb_data.favoriteFruit}</strong> has bound you with a curse: <strong style="color:#ff699d;">${fb_data.fruitQuantity}</strong> times each moon. <em>“Ghor’zal thun’gar, vek’al thul.”</em> Translation: no refunds.</p>
-  <p>Your first smoothie, a gift from <strong style="color:#f06292;">Sal’zaroth</strong>, the Abyssal Blender, carries the curse of eternal decay. Also a splash of oat milk. Sip wisely, for the Seed Spirits await your digestive choices.</p>
-  <p style="color:#c74c71; font-weight: bold;">Changed your mind? It’s okay, these things happen. You can leave the orchard (and this email thread) anytime. No banishment, no blood pacts. Just click
-    <a href="https://www.theuselessweb.com" target="_blank" style="color:#ff8cb3; text-decoration: underline;">here</a> to opt out of your fruity fate (or be launched into the absurd void — who really knows?).</p>
-  <p style="margin-top: 2rem; font-style: italic; color:#a73f5e;">Forever cursed and fruit-bound,<br /> <em>— The Cult of Sal’s Strawberry Saloon 🍓</em></p>
-</div>
-        `
-      );
+      write_status_message(`
+  <div style="
+    background: linear-gradient(135deg, #ffe4eacc, #fff0f5);
+    border: 2px solid #d94f6e;
+    padding: 1.8rem;
+    border-radius: 20px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #7b2a42;
+    box-shadow: 0 0 18px rgba(219, 72, 119, 0.5);
+    max-width: 600px;
+  ">
+    <h2 style="color: #d94f6e; margin-bottom: 0.4rem;">
+      🍓 ${fb_data.name}, Keeper of the Strawberry Paw 🐾
+    </h2>
+    <p>Welcome to the Glade of Berrys, where the fabled Strawberry
+Cats roam and magic tingles in the air.</p>
+    <p>Your craving for <strong
+style="color:#e67398;">${fb_data.favoriteFruit}</strong> has marked
+you, consuming it <strong
+style="color:#e67398;">${fb_data.fruitQuantity}</strong> times by
+moonlight. The cats watch and wait.</p>
+    <p>Your first brew, crafted by the blender-warlock Salzerth, holds
+a secret charm — a blend of hairballs and ancient berry magic. Sip
+wisely, for the Spirits of lifes whisper riddles to those who drink
+too deeply.</p>
+    <p style="color:#a94768; font-weight: bold;">
+      Feel the call to retreat? No curses here — simply step away from
+the glade and your fate by clicking
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+target="_blank" style="color:#ff8cb3; text-decoration:
+underline;">here</a>. The cats will understand (probably).</p>
+    <p style="margin-top: 2rem; font-style: italic; color:#864257;">
+      Bound by berries and whiskers,<br />
+      <em>— The Fellowship of Sal’s Strawberry Cats 🍓🐱</em>
+    </p>
+  </div>
+`);
     })
     .catch((error) => {
       console.log("An error occured, the error is\n" + error);
