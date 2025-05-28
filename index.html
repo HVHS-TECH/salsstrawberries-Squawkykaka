@@ -14,8 +14,11 @@
     <h1>Sal’s Strawberry Saloon</h1>
     <h2>(and other fruit products)</h2>
 
-    <button onclick="fb_authenticate()" id="login-button">Login with Google</button>
-    <button onclick="showEmailFromUser()" id="email-button">Show email.</button>
+    <div style="align-items: center; display: flex;">
+      <button onclick="fb_authenticate()" id="login-button" style="margin-right: 10px;">Login with Google</button>
+      <button onclick="showEmailFromUser()" id="email-button" style="margin-right: 10px;">Show email.</button>
+      <p id="popularFruits">Loading...</p>
+    </div>
 
 
     <form id="fruitForm">

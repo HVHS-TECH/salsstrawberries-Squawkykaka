@@ -99,7 +99,7 @@ function fb_writeForm(form_data) {
     () => {}
   );
 
-  console.log("wowowowowowo");
+  getSortedFruits();
 }
 
 function fb_write(db_ref, data, then) {
@@ -112,12 +112,12 @@ function fb_write(db_ref, data, then) {
 
 function write_status_message(message) {
   document.getElementById("statusMessage").innerHTML = message;
+  console.log(message);
 }
 
 function showEmailFromUser() {
   if (authenticated_user == "unauthorised") {
     write_status_message("You have not logged in, cannot show email.");
-    console.log("You have not logged in.");
     return;
   }
 
@@ -178,14 +178,17 @@ underline;">here</a>. The cats will understand (probably).</p>
 }
 
 // TODO switch to a check if its loaded.
-function displayFiveMostPopularFruits() {
+function getSortedFruits() {
   get(ref(FB_GAMEDB, `/public`)).then((snapshot) => {
     var fb_data = snapshot.val();
 
     // Count how many times each fruit appears
     const fruitCount = {};
     for (const key in fb_data) {
+      // get the current users favorite fruit.
       const fruit = fb_data[key].favoriteFruit;
+
+      // Add 1 to the fruitcount of the current fruit, or 0 so we dont add Null.
       fruitCount[fruit] = (fruitCount[fruit] || 0) + 1;
     }
 
@@ -195,13 +198,30 @@ function displayFiveMostPopularFruits() {
       .map(([fruit_name, amount]) => ({ fruit_name, amount }));
 
     console.log(sortedFruits);
+    displaySortedFruits(sortedFruits);
   });
+}
+
+function displaySortedFruits(sortedFruits) {
+  var displayMessage = "";
+  console.log(sortedFruits);
+
+  for (let i = 0; i < 5; i++) {
+    if (i >= sortedFruits.length || i >= 5) {
+      break;
+    }
+
+    displayMessage += `${sortedFruits[i].fruit_name}: ${sortedFruits[i].amount}<br>`;
+  }
+
+  // Assuming you want to display this in an HTML element with id "fruitDisplay"
+  document.getElementById("popularFruits").innerHTML = displayMessage;
 }
 
 /*****************************************/
 setupSubmitListener();
 
-setTimeout(displayFiveMostPopularFruits, 2000);
+setTimeout(getSortedFruits, 2000);
 
 // Functions to export
 export { fb_authenticate, showEmailFromUser };
